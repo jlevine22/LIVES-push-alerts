@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="LIVEAlerts">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>LIVES Alerts</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap-3.3.2-dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body ng-controller="MainCtrl">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">LIVES Push Alerts</a>
+        </div>
+        <!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <div class="starter-template">
+        <h1>Search for restaurant name</h1>
+        <p class="lead"><input type="text" name="businessName" ng-model="searchQuery" /></p>
+        <div ng-if="hasSearched && searchResults.length > 0" id="searchResults">
+            <div ng-repeat="searchResult in searchResults">
+                <p class="name">
+                    {{searchResult.name}}<br/>
+                    {{searchResult.address}}<br/>
+                    {{searchResult.city}}, {{searchResult.state}} {{searchResult.postal_code}}
+                </p>
+                <p>
+                    <button class="btn btn-default" ng-click="setupAlerts(searchResult)">Setup Alerts</button>
+                </p>
+            </div>
+        </div>
+        <p ng-if="hasSearched && searchResults.length == 0">No results</p>
+      </div>
+
+    </div><!-- /.container -->
+
+    <script type="text/ng-template" id="setupAlerts.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Setup Alerts for {{business.name}}</h3>
+        </div>
+        <div class="modal-body">
+            <p>
+                <label>E-mail to send alerts to: </label><input type="email" ng-model="alert.email" ng-disabled="creatingAlert" />
+            </p>
+            <p>
+                <label>
+                    <input type="radio" ng-model="alert.type" value="all" ng-disabled="creatingAlert"/>
+                    Alert on all new inspections
+                </label>
+            </p>
+            <p>
+                <label>
+                    <input type="radio" ng-model="alert.type" value="score" ng-disabled="creatingAlert"/>
+                    Alert when inspection score is lower than 
+                    <input type="text" ng-model="alert.value" size="4" ng-disabled="creatingAlert"/> (1 - 100)
+                </label>
+            </p>
+            <p>
+                <label>
+                    <input type="radio" ng-model="alert.type" value="critical" ng-disabled="creatingAlert" />
+                    Alert when only when there are CRITICAL violations
+                </label>
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()" ng-disabled="creatingAlert">OK</button>
+            <button class="btn btn-warning" ng-click="$dismiss()">Cancel</button>
+        </div>
+    </script>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="js/ui-bootstrap-tpls-0.12.1.min.js"></script>
+    <script src="js/async.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
